@@ -1,0 +1,119 @@
+package com.Queensburry.hospital.services;
+
+import com.Queensburry.hospital.dtos.request.UserRegistrationDto;
+import com.Queensburry.hospital.dtos.response.LabTestResponseDto;
+import com.Queensburry.hospital.dtos.response.UserResponseDto;
+import com.Queensburry.hospital.entity.LabTest;
+import com.Queensburry.hospital.entity.User;
+import com.Queensburry.hospital.repo.UserRepo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+public class UserService {
+    @Autowired
+    private UserRepo userRepo;
+
+    public String saveUser(UserRegistrationDto userRegistrationDto) {
+        try{
+            User user = new User(
+                    userRegistrationDto.getUserId(),userRegistrationDto.getFirstName(),userRegistrationDto.getLastName(),
+                    userRegistrationDto.getEmail(),userRegistrationDto.getRole(),userRegistrationDto.getStatus(),
+                    userRegistrationDto.getPassword(),userRegistrationDto.getCreatedAt()
+            );
+            User saved =userRepo.save(user);
+            if(saved != null){
+                return saved.getFirstName()+" "+saved.getLastName()+" save successfully";
+            }
+            return null;
+
+        }catch(Exception exception){
+            System.out.println(exception);
+            return null;
+        }
+    }
+
+    public List<UserResponseDto> getAllUsers() {
+        try{
+            List<UserResponseDto> userResponseDtoList = new ArrayList<>();
+            List<User> users = userRepo.findAllByStatus("ACTIVE");
+
+            for(User user:users){
+                UserResponseDto userResponseDto = new UserResponseDto(
+                        user.getUserId(),user.getFirstName(),user.getLastName(),user.getEmail(),user.getRole(),user.getStatus(),
+                        user.getCreatedAt()
+                );
+                userResponseDtoList.add(userResponseDto);
+            }
+
+            return userResponseDtoList;
+
+        }catch (Exception ex){
+            System.out.println(ex);
+            return null;
+        }
+
+    }
+
+    public List<UserResponseDto> searchUserByName(String userName) {
+        try{
+            List<UserResponseDto> userResponseDtoList = new ArrayList<>();
+            List<User> users = userRepo.searchByName(userName);
+
+            for(User user:users){
+                UserResponseDto userResponseDto = new UserResponseDto(
+                        user.getUserId(),user.getFirstName(),user.getLastName(),user.getEmail(),user.getRole(),user.getStatus(),
+                        user.getCreatedAt()
+                );
+                userResponseDtoList.add(userResponseDto);
+            }
+
+            return userResponseDtoList;
+
+        }catch (Exception ex){
+            System.out.println(ex);
+            return null;
+        }
+    }
+
+    public String deactivateUser(String email) {
+        try{
+            User user = userRepo.findByEmail(email);
+            if(user != null){
+                user.setStatus("DEACTIVE");
+            }
+            userRepo.save(user);
+
+            return "Deactivate user "+email;
+
+        }catch (Exception ex){
+            System.out.println(ex);
+            return null;
+        }
+
+    }
+
+    public List<UserResponseDto> getByUserRole(String role) {
+        try{
+            List<UserResponseDto> userResponseDtoList = new ArrayList<>();
+            List<User> users = userRepo.findAllByRole(role);
+
+            for(User user:users){
+                UserResponseDto userResponseDto = new UserResponseDto(
+                        user.getUserId(),user.getFirstName(),user.getLastName(),user.getEmail(),user.getRole(),user.getStatus(),
+                        user.getCreatedAt()
+                );
+                userResponseDtoList.add(userResponseDto);
+            }
+
+            return userResponseDtoList;
+
+        }catch (Exception ex){
+            System.out.println(ex);
+            return null;
+        }
+    }
+}

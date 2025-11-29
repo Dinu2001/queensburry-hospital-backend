@@ -1,45 +1,22 @@
-package com.Queensburry.hospital.entity;
-
-import jakarta.persistence.*;
+package com.Queensburry.hospital.dtos.request;
 
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
-@Entity
-@Table(name = "users")
-public class User {
-
-    @Id
-    @GeneratedValue
-    @Column(name="user_id")
+public class UserRegistrationDto {
     private UUID userId;
-
     private String firstName;
     private String lastName;
-
-    @Column(unique = true,nullable = false)
     private String email;
-
     private String role;
     private String status;
-
     private String password;
-
-    @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    private Patient patient;
-
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    private Doctor doctor;
-
-    public User() {
-        this.createdAt = new Date();
+    public UserRegistrationDto() {
     }
 
-    public User(UUID userId, String firstName, String lastName, String email, String role, String status, String password, Date createdAt) {
+    public UserRegistrationDto(UUID userId, String firstName, String lastName, String email, String role, String status, String password, Date createdAt) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -48,19 +25,6 @@ public class User {
         this.status = status;
         this.password = password;
         this.createdAt = createdAt;
-    }
-
-    public User(UUID userId, String firstName, String lastName, String email, String role, String status, String password, Date createdAt, Patient patient, Doctor doctor) {
-        this.userId = userId;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.role = role;
-        this.status = status;
-        this.password = password;
-        this.createdAt = createdAt;
-        this.patient = patient;
-        this.doctor = doctor;
     }
 
     public UUID getUserId() {
@@ -125,21 +89,5 @@ public class User {
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
-    }
-
-    public Patient getPatient() {
-        return patient;
-    }
-
-    public void setPatient(Patient patient) {
-        this.patient = patient;
-    }
-
-    public Doctor getDoctor() {
-        return doctor;
-    }
-
-    public void setDoctor(Doctor doctor) {
-        this.doctor = doctor;
     }
 }

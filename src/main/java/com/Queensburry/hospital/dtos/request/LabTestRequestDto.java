@@ -1,44 +1,18 @@
-package com.Queensburry.hospital.entity;
+package com.Queensburry.hospital.dtos.request;
 
-import jakarta.persistence.*;
 
-import java.util.List;
 
-@Entity
-@Table(name = "lab_test")
-public class LabTest {
-
-    @Id
+public class LabTestRequestDto {
     private String labId;
-
-    @Column(nullable = false)
     private String testName;
-
-    @Column(length = 500)
     private String description;
-
     private Double test_amount;
-
-    @Column(length = 1000)
     private String preparationInstructions;
 
-    public LabTest() {
+    public LabTestRequestDto() {
     }
 
-    @OneToMany(mappedBy = "labTest")
-    private List<LabAppointment> labAppointments;
-
-
-    public LabTest(String labId, String testName, String description, Double test_amount, String preparationInstructions, List<LabAppointment> labAppointments) {
-        this.labId = labId;
-        this.testName = testName;
-        this.description = description;
-        this.test_amount = test_amount;
-        this.preparationInstructions = preparationInstructions;
-        this.labAppointments = labAppointments;
-    }
-
-    public LabTest(String labId, String testName, String description, Double test_amount, String preparationInstructions) {
+    public LabTestRequestDto(String labId, String testName, String description, Double test_amount, String preparationInstructions) {
         this.labId = labId;
         this.testName = testName;
         this.description = description;
@@ -84,13 +58,5 @@ public class LabTest {
 
     public void setPreparationInstructions(String preparationInstructions) {
         this.preparationInstructions = preparationInstructions;
-    }
-
-    public List<LabAppointment> getLabAppointments() {
-        return labAppointments;
-    }
-
-    public void setLabAppointments(List<LabAppointment> labAppointments) {
-        this.labAppointments = labAppointments;
     }
 }
