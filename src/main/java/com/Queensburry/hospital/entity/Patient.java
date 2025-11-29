@@ -2,6 +2,8 @@ package com.Queensburry.hospital.entity;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "patient")
 public class Patient {
@@ -16,19 +18,30 @@ public class Patient {
 
     private String phoneNumber;
 
+    @Column(nullable = true)
     private String guardianName;
+
+    @Column(nullable = true)
     private String guardianPhone;
+
+    @Column(nullable = true)
     private String guardianRelationship;
 
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
 
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
+    private List<LabAppointment> labAppointments;
+
+
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
+    private List<Payment> payments;
 
     public Patient() {
     }
 
-    public Patient(String patientId, int age, String gender, String address, String phoneNumber, String guardianName, String guardianPhone, String guardianRelationship, User user) {
+    public Patient(String patientId, int age, String gender, String address, String phoneNumber, String guardianName, String guardianPhone, String guardianRelationship, User user, List<LabAppointment> labAppointments, List<Payment> payments) {
         this.patientId = patientId;
         this.age = age;
         this.gender = gender;
@@ -38,6 +51,8 @@ public class Patient {
         this.guardianPhone = guardianPhone;
         this.guardianRelationship = guardianRelationship;
         this.user = user;
+        this.labAppointments = labAppointments;
+        this.payments = payments;
     }
 
     public String getPatientId() {
@@ -110,5 +125,21 @@ public class Patient {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public List<LabAppointment> getLabAppointments() {
+        return labAppointments;
+    }
+
+    public void setLabAppointments(List<LabAppointment> labAppointments) {
+        this.labAppointments = labAppointments;
+    }
+
+    public List<Payment> getPayments() {
+        return payments;
+    }
+
+    public void setPayments(List<Payment> payments) {
+        this.payments = payments;
     }
 }

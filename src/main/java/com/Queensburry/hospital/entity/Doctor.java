@@ -30,7 +30,6 @@ public class Doctor {
     @JoinColumn(name = "user_id")
     private User user;
 
-
     public Doctor() {
     }
 
