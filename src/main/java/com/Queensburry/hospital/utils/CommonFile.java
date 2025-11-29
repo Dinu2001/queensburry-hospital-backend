@@ -8,4 +8,6 @@ public class CommonFile {
         Random random = new Random();
         return 10000 + random.nextInt(90000);
     }
+
+
 }

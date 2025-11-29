@@ -3,6 +3,7 @@ package com.Queensburry.hospital.entity;
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "patient")
@@ -18,14 +19,8 @@ public class Patient {
 
     private String phoneNumber;
 
-    @Column(nullable = true)
-    private String guardianName;
-
-    @Column(nullable = true)
-    private String guardianPhone;
-
-    @Column(nullable = true)
-    private String guardianRelationship;
+    @OneToOne(mappedBy = "patient", cascade = CascadeType.ALL)
+    private Guardian guardian;
 
     @OneToOne
     @JoinColumn(name = "user_id")
@@ -38,21 +33,39 @@ public class Patient {
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
     private List<Payment> payments;
 
+
     public Patient() {
     }
 
-    public Patient(String patientId, int age, String gender, String address, String phoneNumber, String guardianName, String guardianPhone, String guardianRelationship, User user, List<LabAppointment> labAppointments, List<Payment> payments) {
+    public Patient(String patientId, int age, String gender, String address, String phoneNumber) {
         this.patientId = patientId;
         this.age = age;
         this.gender = gender;
         this.address = address;
         this.phoneNumber = phoneNumber;
-        this.guardianName = guardianName;
-        this.guardianPhone = guardianPhone;
-        this.guardianRelationship = guardianRelationship;
+    }
+
+
+    public Patient(String patientId, int age, String gender, String address, String phoneNumber, Guardian guardian, User user, List<LabAppointment> labAppointments, List<Payment> payments) {
+        this.patientId = patientId;
+        this.age = age;
+        this.gender = gender;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.guardian = guardian;
         this.user = user;
         this.labAppointments = labAppointments;
         this.payments = payments;
+    }
+
+    public Patient(String id, int age, String gender, String address, String phoneNumber, User saveduser) {
+        this.patientId = id;
+        this.age = age;
+        this.gender = gender;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.user = saveduser;
+
     }
 
     public String getPatientId() {
@@ -95,28 +108,12 @@ public class Patient {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getGuardianName() {
-        return guardianName;
+    public Guardian getGuardian() {
+        return guardian;
     }
 
-    public void setGuardianName(String guardianName) {
-        this.guardianName = guardianName;
-    }
-
-    public String getGuardianPhone() {
-        return guardianPhone;
-    }
-
-    public void setGuardianPhone(String guardianPhone) {
-        this.guardianPhone = guardianPhone;
-    }
-
-    public String getGuardianRelationship() {
-        return guardianRelationship;
-    }
-
-    public void setGuardianRelationship(String guardianRelationship) {
-        this.guardianRelationship = guardianRelationship;
+    public void setGuardian(Guardian guardian) {
+        this.guardian = guardian;
     }
 
     public User getUser() {
