@@ -26,7 +26,7 @@ public class LabAppointment {
 
     @ManyToOne
     @JoinColumn(name = "lab_id", nullable = false)
-    private Lab_test labTest;
+    private LabTest labTest;
 
     @OneToMany(mappedBy = "labAppointment", cascade = CascadeType.ALL)
     private List<Payment> payments;
@@ -34,7 +34,7 @@ public class LabAppointment {
     public LabAppointment() {
     }
 
-    public LabAppointment(String labAppointmentId, Date appointmentDate, Time appointmentTime, String status, Boolean payment_status, Patient patient, Lab_test labTest, List<Payment> payments) {
+    public LabAppointment(String labAppointmentId, Date appointmentDate, Time appointmentTime, String status, Boolean payment_status, Patient patient, LabTest labTest, List<Payment> payments) {
         this.labAppointmentId = labAppointmentId;
         this.appointmentDate = appointmentDate;
         this.appointmentTime = appointmentTime;
@@ -93,11 +93,11 @@ public class LabAppointment {
         this.patient = patient;
     }
 
-    public Lab_test getLabTest() {
+    public LabTest getLabTest() {
         return labTest;
     }
 
-    public void setLabTest(Lab_test labTest) {
+    public void setLabTest(LabTest labTest) {
         this.labTest = labTest;
     }
 

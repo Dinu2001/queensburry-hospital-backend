@@ -6,7 +6,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "lab_test")
-public class Lab_test {
+public class LabTest {
 
     @Id
     private String labId;
@@ -22,14 +22,14 @@ public class Lab_test {
     @Column(length = 1000)
     private String preparationInstructions;
 
-    public Lab_test() {
+    public LabTest() {
     }
 
     @OneToMany(mappedBy = "labTest")
     private List<LabAppointment> labAppointments;
 
 
-    public Lab_test(String labId, String testName, String description, Double test_amount, String preparationInstructions, List<LabAppointment> labAppointments) {
+    public LabTest(String labId, String testName, String description, Double test_amount, String preparationInstructions, List<LabAppointment> labAppointments) {
         this.labId = labId;
         this.testName = testName;
         this.description = description;
