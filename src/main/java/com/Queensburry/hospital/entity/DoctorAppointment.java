@@ -10,8 +10,7 @@ import java.util.UUID;
 @Table(name = "doctor_appointment")
 public class DoctorAppointment {
     @Id
-    @GeneratedValue
-    private UUID appointmentId;
+    private String appointmentId;
 
     private String appointment_type;
     private Date appointment_date;
@@ -36,10 +35,23 @@ public class DoctorAppointment {
     @OneToMany(mappedBy = "doctorAppointment", cascade = CascadeType.ALL)
     private List<Payment> payments;
 
+    public DoctorAppointment(String appointmentId, String appointment_type, Date appointment_date, String reason, String status, Boolean payment_status, Boolean email_sent, Doctor doctor, Patient patient) {
+        this.appointmentId = appointmentId;
+        this.appointment_type = appointment_type;
+        this.appointment_date = appointment_date;
+        this.reason = reason;
+        this.status = status;
+        this.payment_status = payment_status;
+        this.email_sent = email_sent;
+        this.doctor = doctor;
+        this.patient = patient;
+    }
+
     public DoctorAppointment() {
     }
 
-    public DoctorAppointment(UUID appointmentId, String appointment_type, Date appointment_date, String reason, String status, Boolean payment_status, Boolean email_sent, Doctor doctor, Patient patient, List<Payment> payments) {
+
+    public DoctorAppointment(String appointmentId, String appointment_type, Date appointment_date, String reason, String status, Boolean payment_status, Boolean email_sent, Doctor doctor, Patient patient, List<Payment> payments) {
         this.appointmentId = appointmentId;
         this.appointment_type = appointment_type;
         this.appointment_date = appointment_date;
@@ -52,11 +64,11 @@ public class DoctorAppointment {
         this.payments = payments;
     }
 
-    public UUID getAppointmentId() {
+    public String getAppointmentId() {
         return appointmentId;
     }
 
-    public void setAppointmentId(UUID appointmentId) {
+    public void setAppointmentId(String appointmentId) {
         this.appointmentId = appointmentId;
     }
 
