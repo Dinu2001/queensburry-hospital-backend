@@ -6,15 +6,13 @@ import com.Queensburry.hospital.entity.*;
 import com.Queensburry.hospital.repo.DoctorAppointmentRepo;
 import com.Queensburry.hospital.repo.DoctorRepo;
 import com.Queensburry.hospital.repo.PatientRepo;
+import com.Queensburry.hospital.utils.EmailSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,6 +24,9 @@ public class DoctorAppointmentService {
 
     @Autowired
     private PatientRepo patientRepo;
+
+    @Autowired
+    private EmailSender emailSender;
 
 
     public String generateOneAfterOne(){
@@ -40,12 +41,14 @@ public class DoctorAppointmentService {
 
     public String saveDoctorAppointment(DoctorAppointmentRequestDto dto) {
         try {
+            // Fetch doctor and patient
             Doctor doctor = doctorRepo.findById(dto.getDoctorId())
                     .orElseThrow(() -> new RuntimeException("Doctor not found"));
 
             Patient patient = patientRepo.findById(dto.getPatientId())
                     .orElseThrow(() -> new RuntimeException("Patient not found"));
 
+            // Save appointment
             DoctorAppointment appointment = new DoctorAppointment(
                     generateOneAfterOne(),
                     dto.getAppointment_type(),
@@ -60,13 +63,29 @@ public class DoctorAppointmentService {
 
             doctorAppointmentRepo.save(appointment);
 
-            return "saved successfully";
+
+            Map<String, String> variables = Map.of(
+                    "recipientName", patient.getUser().getFirstName() + " " + patient.getUser().getLastName(),
+                    "patientName", patient.getUser().getFirstName() + " " + patient.getUser().getLastName(),
+                    "doctorName", doctor.getUser().getFirstName() + " " + doctor.getUser().getLastName(),
+                    "appointmentDate", appointment.getAppointment_date().toString(),
+                    "appointmentLocation", "Room 101, Your Clinic",
+                    "clinicName", "Your Clinic",
+                    "year", String.valueOf(LocalDate.now().getYear())
+            );
+
+
+            emailSender.sendAppointmentEmail(patient.getUser().getEmail(), variables);
+
+            return "Appointment saved and email sent successfully";
 
         } catch (Exception e) {
             e.printStackTrace();
             return "Error: " + e.getMessage();
         }
     }
+
+
 
     private DoctorAppointmentResponseDto convertToDto(DoctorAppointment appointment) {
         DoctorAppointmentResponseDto dto = new DoctorAppointmentResponseDto();

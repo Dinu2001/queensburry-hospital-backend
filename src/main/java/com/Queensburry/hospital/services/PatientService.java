@@ -7,6 +7,7 @@ import com.Queensburry.hospital.entity.Patient;
 import com.Queensburry.hospital.entity.User;
 import com.Queensburry.hospital.repo.PatientRepo;
 import com.Queensburry.hospital.repo.UserRepo;
+import com.Queensburry.hospital.utils.EmailSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,6 +25,10 @@ public class PatientService {
 
     @Autowired
     private UserRepo userRepo;
+
+    @Autowired
+    private EmailSender emailSender;
+
 
     public String generateOneAfterOne(){
         String lastId = patientRepo.getLastPatientId();
@@ -37,28 +43,54 @@ public class PatientService {
 
 
     public String savePatient(PatientRegistrationDto patientRegistrationDto) {
-        try{
+        try {
             LocalDate localDate = LocalDate.now();
-            String id =generateOneAfterOne();
+            String id = generateOneAfterOne();
 
             Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
             User user = new User(
-                   null ,patientRegistrationDto.getFirstName(),patientRegistrationDto.getLastName(),patientRegistrationDto.getEmail(),
-                    "PATIENT","ACTIVATE",patientRegistrationDto.getPassword(),date
+                    null,
+                    patientRegistrationDto.getFirstName(),
+                    patientRegistrationDto.getLastName(),
+                    patientRegistrationDto.getEmail(),
+                    "PATIENT",
+                    "ACTIVATE",
+                    patientRegistrationDto.getPassword(),
+                    date
             );
-            User saveduser = userRepo.save(user);
+            User savedUser = userRepo.save(user);
 
             Patient patient = new Patient(
-                    id,patientRegistrationDto.getAge(),patientRegistrationDto.getGender(),patientRegistrationDto.getAddress(),
-                    patientRegistrationDto.getPhoneNumber(),saveduser
+                    id,
+                    patientRegistrationDto.getAge(),
+                    patientRegistrationDto.getGender(),
+                    patientRegistrationDto.getAddress(),
+                    patientRegistrationDto.getPhoneNumber(),
+                    savedUser
             );
             Patient savedPatient = patientRepo.save(patient);
-            return "user saved successfully "+ savedPatient.getPatientId();
+
+
+            Map<String, Object> vars = Map.of(
+                    "patientName", savedUser.getFirstName() + " " + savedUser.getLastName(),
+                    "patientId", savedPatient.getPatientId(),
+                    "registrationDate", localDate.toString(),
+                    "clinicName", "Queensburry Hospital",
+                    "clinicDomain", "queensburryhospital.com",
+                    "loginUrl", "https://queensburryhospital.com/patient-login",
+                    "year", "2025"
+            );
+
+            emailSender.sendRegistrationEmail(savedUser.getEmail(), vars);
+
+            return "user saved successfully " + savedPatient.getPatientId();
+
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
             return null;
         }
     }
+
 
     public List<PatientResponseDto> getAllPatients() {
         List<Patient> patients = patientRepo.findAll();

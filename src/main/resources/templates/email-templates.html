@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Appointment Confirmation</title>
+</head>
+<body style="font-family: Arial; background: #f7f7f7; padding: 20px;">
+<div style="max-width: 600px; margin: auto; background: #fff; padding: 20px; border-radius: 6px;">
+    <h2 style="color:#0b74de;">{{clinicName}}</h2>
+    <p>Dear <strong>{{recipientName}}</strong>,</p>
+    <p>Your upcoming appointment has been successfully scheduled.</p>
+    <div style="background: #f0f0f0; padding: 15px; border-radius: 6px;">
+        <p><strong>Patient:</strong> {{patientName}}</p>
+        <p><strong>Doctor:</strong> {{doctorName}}</p>
+        <p><strong>Date:</strong> {{appointmentDate}}</p>
+        <p><strong>Location:</strong> {{appointmentLocation}}</p>
+    </div>
+    <p>Please make sure to arrive 10 minutes before your scheduled time.</p>
+    <p>Thank you for choosing <strong>{{clinicName}}</strong>.</p>
+    <hr />
+    <p style="font-size:12px;color:#777;">© {{year}} {{clinicName}} — All Rights Reserved.</p>
+</div>
+</body>
+</html>
