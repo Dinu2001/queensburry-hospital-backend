@@ -1,15 +1,12 @@
 package com.Queensburry.hospital.controllers;
 
 import com.Queensburry.hospital.dtos.request.DoctorAppointmentRequestDto;
-import com.Queensburry.hospital.dtos.request.DoctorRegisterDto;
-import com.Queensburry.hospital.dtos.request.LabTestRequestDto;
 import com.Queensburry.hospital.dtos.response.DoctorAppointmentResponseDto;
 import com.Queensburry.hospital.services.DoctorAppointmentService;
 import com.Queensburry.hospital.utils.StandardResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -77,8 +74,6 @@ public class DoctorAppointmentController {
     }
 
 
-
-
     @GetMapping("/doctor/{id}")
     public ResponseEntity<StandardResponse> getByDoctorId(@PathVariable String id) {
         try{
@@ -136,8 +131,6 @@ public class DoctorAppointmentController {
             );
         }
     }
-
-
 
 
 }

@@ -1,63 +1,31 @@
-package com.Queensburry.hospital.entity;
-
-import jakarta.persistence.*;
+package com.Queensburry.hospital.dtos.response;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-@Entity
-@Table(name = "doctor_available_schedule")
-public class DoctorAvailability {
+public class DoctorAvailabilityResponseDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-
-    @Column(nullable = false)
     private LocalDate availableDate;
-
-
-    @Column(nullable = false)
     private LocalTime startTime;
-
-    @Column(nullable = false)
     private LocalTime endTime;
-
-
-    @Column(nullable = false)
     private int maxPatients;
+    private int bookedPatients;
 
-    @Column(nullable = false)
-    private int bookedPatients = 0;
-
-
-    @ManyToOne
-    @JoinColumn(name = "doctor_id", nullable = false)
-    private Doctor doctor;
-
-
-    public DoctorAvailability(Long id, LocalDate availableDate, LocalTime startTime, LocalTime endTime, int maxPatients, int bookedPatients, Doctor doctor) {
+    public DoctorAvailabilityResponseDto(
+            Long id,
+            LocalDate availableDate,
+            LocalTime startTime,
+            LocalTime endTime,
+            int maxPatients,
+            int bookedPatients
+    ) {
         this.id = id;
         this.availableDate = availableDate;
         this.startTime = startTime;
         this.endTime = endTime;
         this.maxPatients = maxPatients;
         this.bookedPatients = bookedPatients;
-        this.doctor = doctor;
-    }
-
-    public DoctorAvailability(LocalDate availableDate, LocalTime startTime, LocalTime endTime, int maxPatients, int bookedPatients, Doctor doctor) {
-        this.availableDate = availableDate;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.maxPatients = maxPatients;
-        this.bookedPatients = bookedPatients;
-        this.doctor = doctor;
-    }
-
-    public DoctorAvailability() {
-
     }
 
     public Long getId() {
@@ -106,13 +74,5 @@ public class DoctorAvailability {
 
     public void setBookedPatients(int bookedPatients) {
         this.bookedPatients = bookedPatients;
-    }
-
-    public Doctor getDoctor() {
-        return doctor;
-    }
-
-    public void setDoctor(Doctor doctor) {
-        this.doctor = doctor;
     }
 }

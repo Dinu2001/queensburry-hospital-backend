@@ -21,6 +21,6 @@ public interface UserRepo extends JpaRepository<User,String> {
 
     List<User> findAllByRole(String role);
 
-    @Query(value = "SELECT user_id FROM user ORDER BY user_id DESC LIMIT 1", nativeQuery = true)
+    @Query(value = "SELECT user_id FROM users ORDER BY user_id DESC LIMIT 1", nativeQuery = true)
     String getLastUserId();
 }
