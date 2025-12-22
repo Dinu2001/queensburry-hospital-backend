@@ -1,19 +1,16 @@
 package com.Queensburry.hospital.entity;
-
 import jakarta.persistence.*;
 
 import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+
 
 @Entity
 @Table(name = "users")
 public class User {
 
     @Id
-    @GeneratedValue
     @Column(name="user_id")
-    private UUID userId;
+    private String userId;
 
     private String firstName;
     private String lastName;
@@ -39,7 +36,7 @@ public class User {
         this.createdAt = new Date();
     }
 
-    public User(UUID userId, String firstName, String lastName, String email, String role, String status, String password, Date createdAt) {
+    public User(String userId, String firstName, String lastName, String email, String role, String status, String password, Date createdAt) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -50,7 +47,7 @@ public class User {
         this.createdAt = createdAt;
     }
 
-    public User(UUID userId, String firstName, String lastName, String email, String role, String status, String password, Date createdAt, Patient patient, Doctor doctor) {
+    public User(String userId, String firstName, String lastName, String email, String role, String status, String password, Date createdAt, Patient patient, Doctor doctor) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -63,11 +60,11 @@ public class User {
         this.doctor = doctor;
     }
 
-    public UUID getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(UUID userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

@@ -1,7 +1,9 @@
 package com.Queensburry.hospital.services;
 
+import com.Queensburry.hospital.dtos.request.DoctorAvailabilityDto;
 import com.Queensburry.hospital.dtos.request.DoctorRegisterDto;
 import com.Queensburry.hospital.entity.Doctor;
+import com.Queensburry.hospital.entity.DoctorAvailability;
 import com.Queensburry.hospital.entity.Patient;
 import com.Queensburry.hospital.entity.User;
 import com.Queensburry.hospital.repo.DoctorRepo;
@@ -11,7 +13,9 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class DoctorService {
@@ -39,8 +43,9 @@ public class DoctorService {
             LocalDate localDate = LocalDate.now();
             String doctorId = generateOneAfterOne();
 
-            Date createdDate = Date.from(localDate.atStartOfDay(
-                    ZoneId.systemDefault()).toInstant());
+            Date createdDate = Date.from(
+                    localDate.atStartOfDay(ZoneId.systemDefault()).toInstant()
+            );
 
             User user = new User(
                     null,
@@ -54,13 +59,31 @@ public class DoctorService {
             );
 
             User savedUser = userRepo.save(user);
+
             Doctor doctor = new Doctor();
             doctor.setDoctorId(doctorId);
             doctor.setSpecification(doctorRegisterDto.getSpecification());
             doctor.setRegistrationNumber(doctorRegisterDto.getRegistrationNumber());
             doctor.setPhoneNumber(doctorRegisterDto.getPhoneNumber());
-            doctor.setAvailableDates(doctorRegisterDto.getAvailableDates());
             doctor.setUser(savedUser);
+
+
+            List<DoctorAvailability> availabilityList = new ArrayList<>();
+
+            for (DoctorAvailabilityDto dto : doctorRegisterDto.getAvailabilities()) {
+
+                DoctorAvailability availability = new DoctorAvailability();
+                availability.setAvailableDate(dto.getAvailableDate());
+                availability.setStartTime(dto.getStartTime());
+                availability.setEndTime(dto.getEndTime());
+                availability.setMaxPatients(dto.getMaxPatients());
+                availability.setDoctor(doctor);
+
+                availabilityList.add(availability);
+            }
+
+            doctor.setAvailabilities(availabilityList);
+
 
             Doctor savedDoctor = doctorRepo.save(doctor);
 
@@ -71,5 +94,6 @@ public class DoctorService {
             return "Error: " + e.getMessage();
         }
     }
+
 
 }

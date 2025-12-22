@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.UUID;
 
 public class UserRegistrationDto {
-    private UUID userId;
+    private String userId;
     private String firstName;
     private String lastName;
     private String email;
@@ -16,7 +16,7 @@ public class UserRegistrationDto {
     public UserRegistrationDto() {
     }
 
-    public UserRegistrationDto(UUID userId, String firstName, String lastName, String email, String role, String status, String password, Date createdAt) {
+    public UserRegistrationDto(String userId, String firstName, String lastName, String email, String role, String status, String password, Date createdAt) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -27,11 +27,11 @@ public class UserRegistrationDto {
         this.createdAt = createdAt;
     }
 
-    public UUID getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(UUID userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

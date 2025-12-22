@@ -13,12 +13,12 @@ public class DoctorRegisterDto {
     private String specification;
     private String phoneNumber;
 
-    private List<String> availableDates;
+    private List<DoctorAvailabilityDto> availabilities;
 
     public DoctorRegisterDto() {
     }
 
-    public DoctorRegisterDto(String firstName, String lastName, String email, String password, String registrationNumber, String specification, String phoneNumber, List<String> availableDates) {
+    public DoctorRegisterDto(String firstName, String lastName, String email, String password, String registrationNumber, String specification, String phoneNumber, List<DoctorAvailabilityDto> availabilities) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -26,7 +26,15 @@ public class DoctorRegisterDto {
         this.registrationNumber = registrationNumber;
         this.specification = specification;
         this.phoneNumber = phoneNumber;
-        this.availableDates = availableDates;
+        this.availabilities = availabilities;
+    }
+
+    public List<DoctorAvailabilityDto> getAvailabilities() {
+        return availabilities;
+    }
+
+    public void setAvailabilities(List<DoctorAvailabilityDto> availabilities) {
+        this.availabilities = availabilities;
     }
 
     public String getFirstName() {
@@ -85,11 +93,5 @@ public class DoctorRegisterDto {
         this.phoneNumber = phoneNumber;
     }
 
-    public List<String> getAvailableDates() {
-        return availableDates;
-    }
 
-    public void setAvailableDates(List<String> availableDates) {
-        this.availableDates = availableDates;
-    }
 }
