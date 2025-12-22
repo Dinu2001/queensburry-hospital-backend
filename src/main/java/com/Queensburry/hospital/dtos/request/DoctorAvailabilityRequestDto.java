@@ -3,17 +3,20 @@ package com.Queensburry.hospital.dtos.request;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class DoctorAvailabilityDto {
+public class DoctorAvailabilityRequestDto {
+
+    private String doctorId;
     private LocalDate availableDate;
     private LocalTime startTime;
     private LocalTime endTime;
     private int maxPatients;
 
-    public DoctorAvailabilityDto(LocalDate availableDate, LocalTime startTime, LocalTime endTime, int maxPatients) {
-        this.availableDate = availableDate;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.maxPatients = maxPatients;
+    public String getDoctorId() {
+        return doctorId;
+    }
+
+    public void setDoctorId(String doctorId) {
+        this.doctorId = doctorId;
     }
 
     public LocalDate getAvailableDate() {

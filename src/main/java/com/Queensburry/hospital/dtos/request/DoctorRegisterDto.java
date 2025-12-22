@@ -1,7 +1,5 @@
 package com.Queensburry.hospital.dtos.request;
 
-import java.util.List;
-
 public class DoctorRegisterDto {
     private String firstName;
     private String lastName;
@@ -13,12 +11,12 @@ public class DoctorRegisterDto {
     private String specification;
     private String phoneNumber;
 
-    private List<DoctorAvailabilityDto> availabilities;
+//    private List<DoctorAvailabilityDto> availabilities;
 
     public DoctorRegisterDto() {
     }
 
-    public DoctorRegisterDto(String firstName, String lastName, String email, String password, String registrationNumber, String specification, String phoneNumber, List<DoctorAvailabilityDto> availabilities) {
+    public DoctorRegisterDto(String firstName, String lastName, String email, String password, String registrationNumber, String specification, String phoneNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -26,16 +24,16 @@ public class DoctorRegisterDto {
         this.registrationNumber = registrationNumber;
         this.specification = specification;
         this.phoneNumber = phoneNumber;
-        this.availabilities = availabilities;
+
     }
 
-    public List<DoctorAvailabilityDto> getAvailabilities() {
-        return availabilities;
-    }
-
-    public void setAvailabilities(List<DoctorAvailabilityDto> availabilities) {
-        this.availabilities = availabilities;
-    }
+//    public List<DoctorAvailabilityDto> getAvailabilities() {
+//        return availabilities;
+//    }
+//
+//    public void setAvailabilities(List<DoctorAvailabilityDto> availabilities) {
+//        this.availabilities = availabilities;
+//    }
 
     public String getFirstName() {
         return firstName;

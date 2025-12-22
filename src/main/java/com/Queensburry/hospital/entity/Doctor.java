@@ -31,13 +31,12 @@ public class Doctor {
     )
     private List<DoctorAvailability> availabilities;
 
-    public Doctor(String doctorId, String specification, String registrationNumber, String phoneNumber, User user, List<DoctorAvailability> availabilities) {
+    public Doctor(String doctorId, String specification, String registrationNumber, String phoneNumber, User user) {
         this.doctorId = doctorId;
         this.specification = specification;
         this.registrationNumber = registrationNumber;
         this.phoneNumber = phoneNumber;
         this.user = user;
-        this.availabilities = availabilities;
     }
 
     public Doctor() {
@@ -84,13 +83,7 @@ public class Doctor {
         this.user = user;
     }
 
-    public List<DoctorAvailability> getAvailabilities() {
-        return availabilities;
-    }
 
-    public void setAvailabilities(List<DoctorAvailability> availabilities) {
-        this.availabilities = availabilities;
-    }
 
 
 
