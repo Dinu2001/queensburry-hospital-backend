@@ -17,10 +17,25 @@ public class UserService {
     @Autowired
     private UserRepo userRepo;
 
+
+    public String generateUserIdOneAfterOne() {
+        String lastId = userRepo.getLastUserId();
+        if (lastId == null) {
+            return "U001";
+        }
+        int number = Integer.parseInt(lastId.substring(1));
+        number++;
+        return String.format("U%03d", number);
+    }
+
+
+
+
+
     public String saveUser(UserRegistrationDto userRegistrationDto) {
         try{
             User user = new User(
-                    userRegistrationDto.getUserId(),userRegistrationDto.getFirstName(),userRegistrationDto.getLastName(),
+                    generateUserIdOneAfterOne(),userRegistrationDto.getFirstName(),userRegistrationDto.getLastName(),
                     userRegistrationDto.getEmail(),userRegistrationDto.getRole(),userRegistrationDto.getStatus(),
                     userRegistrationDto.getPassword(),userRegistrationDto.getCreatedAt()
             );
