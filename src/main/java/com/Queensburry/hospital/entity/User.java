@@ -1,4 +1,6 @@
 package com.Queensburry.hospital.entity;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -27,6 +29,8 @@ public class User {
     private Date createdAt;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonBackReference
+    @JsonIgnore
     private Patient patient;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)

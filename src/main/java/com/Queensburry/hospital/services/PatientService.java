@@ -29,6 +29,9 @@ public class PatientService {
     @Autowired
     private EmailSender emailSender;
 
+    @Autowired
+    private UserService userService;
+
 
     public String generateOneAfterOne(){
         String lastId = patientRepo.getLastPatientId();
@@ -49,7 +52,7 @@ public class PatientService {
 
             Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
             User user = new User(
-                    null,
+                    userService.generateUserIdOneAfterOne(),
                     patientRegistrationDto.getFirstName(),
                     patientRegistrationDto.getLastName(),
                     patientRegistrationDto.getEmail(),

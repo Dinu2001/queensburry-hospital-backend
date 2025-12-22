@@ -1,5 +1,6 @@
 package com.Queensburry.hospital.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -24,6 +25,7 @@ public class Patient {
 
     @OneToOne
     @JoinColumn(name = "user_id")
+    @JsonManagedReference
     private User user;
 
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
