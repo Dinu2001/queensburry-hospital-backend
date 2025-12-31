@@ -12,4 +12,6 @@ public interface DoctorRepo extends JpaRepository<Doctor,String> {
 
     @Query(value = "SELECT doctor_id FROM doctor ORDER BY doctor_id DESC LIMIT 1", nativeQuery = true)
     String getLastDoctorId();
+
+    Doctor findByDoctorId(String doctorId);
 }

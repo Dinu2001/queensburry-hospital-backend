@@ -13,9 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -111,4 +109,79 @@ public class PatientService {
                 )
         ).collect(Collectors.toList());
     }
+
+    public String getPatientId(String userId) {
+        try{
+            Optional<User> user = userRepo.findById(userId);
+            if(user != null){
+                return user.get().getPatient().getPatientId();
+            }
+            else{
+                return null;
+            }
+
+
+        }catch(Exception e){
+            System.out.println(e);
+            return null;
+        }
+    }
+
+    public List<PatientResponseDto> getPatientNameAndId(String userName) {
+        List<PatientResponseDto> result = new ArrayList<>();
+        try {
+            // Assuming searchByName returns List<User>
+            List<User> users = userRepo.searchByName(userName);
+
+            if (users != null && !users.isEmpty()) {
+                for (User user : users) {
+                    Optional<Patient> patientOpt = Optional.ofNullable(user.getPatient());
+                    if (patientOpt.isPresent()) {
+                        Patient patient = patientOpt.get();
+                        PatientResponseDto dto = new PatientResponseDto();
+                        dto.setPatientId(patient.getPatientId());
+                        dto.setFirstName(user.getFirstName());
+                        dto.setLastName(user.getLastName());
+                        dto.setEmail(user.getEmail());
+                        dto.setAge(patient.getAge());
+                        dto.setGender(patient.getGender());
+                        dto.setAddress(patient.getAddress());
+                        dto.setPhoneNumber(patient.getPhoneNumber());
+                        result.add(dto);
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            System.out.println("Error fetching patients: " + e);
+        }
+        return result;
+    }
+
+
+
+    public PatientResponseDto getUserDetailsUsingId(String id) {
+
+        Patient patient = patientRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Patient not found with ID: " + id));
+
+        User user = patient.getUser();
+
+        if (user == null) {
+            throw new RuntimeException("User not linked with patient ID: " + id);
+        }
+
+        return new PatientResponseDto(
+                patient.getPatientId(),
+                user.getFirstName(),
+                user.getLastName(),
+                user.getEmail(),
+                patient.getAge(),
+                patient.getGender(),
+                patient.getAddress(),
+                patient.getPhoneNumber()
+        );
+    }
+
+
 }

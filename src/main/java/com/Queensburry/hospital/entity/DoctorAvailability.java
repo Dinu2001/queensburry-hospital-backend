@@ -1,7 +1,7 @@
 package com.Queensburry.hospital.entity;
 
 import jakarta.persistence.*;
-
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -13,10 +13,9 @@ public class DoctorAvailability {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private LocalDate availableDate;
-
+    private DayOfWeek day;
 
     @Column(nullable = false)
     private LocalTime startTime;
@@ -24,95 +23,46 @@ public class DoctorAvailability {
     @Column(nullable = false)
     private LocalTime endTime;
 
-
     @Column(nullable = false)
     private int maxPatients;
 
     @Column(nullable = false)
     private int bookedPatients = 0;
 
+    @Column(nullable = false)
+    private LocalDate availableDate;
 
     @ManyToOne
     @JoinColumn(name = "doctor_id", nullable = false)
     private Doctor doctor;
 
+    public DoctorAvailability() {}
 
-    public DoctorAvailability(Long id, LocalDate availableDate, LocalTime startTime, LocalTime endTime, int maxPatients, int bookedPatients, Doctor doctor) {
-        this.id = id;
-        this.availableDate = availableDate;
+    public DoctorAvailability(DayOfWeek day, LocalTime startTime, LocalTime endTime,
+                              int maxPatients, Doctor doctor, LocalDate availableDate) {
+        this.day = day;
         this.startTime = startTime;
         this.endTime = endTime;
         this.maxPatients = maxPatients;
-        this.bookedPatients = bookedPatients;
+        this.bookedPatients = 0;
         this.doctor = doctor;
-    }
-
-    public DoctorAvailability(LocalDate availableDate, LocalTime startTime, LocalTime endTime, int maxPatients, int bookedPatients, Doctor doctor) {
-        this.availableDate = availableDate;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.maxPatients = maxPatients;
-        this.bookedPatients = bookedPatients;
-        this.doctor = doctor;
-    }
-
-    public DoctorAvailability() {
-
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public LocalDate getAvailableDate() {
-        return availableDate;
-    }
-
-    public void setAvailableDate(LocalDate availableDate) {
         this.availableDate = availableDate;
     }
 
-    public LocalTime getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(LocalTime startTime) {
-        this.startTime = startTime;
-    }
-
-    public LocalTime getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(LocalTime endTime) {
-        this.endTime = endTime;
-    }
-
-    public int getMaxPatients() {
-        return maxPatients;
-    }
-
-    public void setMaxPatients(int maxPatients) {
-        this.maxPatients = maxPatients;
-    }
-
-    public int getBookedPatients() {
-        return bookedPatients;
-    }
-
-    public void setBookedPatients(int bookedPatients) {
-        this.bookedPatients = bookedPatients;
-    }
-
-    public Doctor getDoctor() {
-        return doctor;
-    }
-
-    public void setDoctor(Doctor doctor) {
-        this.doctor = doctor;
-    }
+    // Getters & setters
+    public Long getId() { return id; }
+    public DayOfWeek getDay() { return day; }
+    public void setDay(DayOfWeek day) { this.day = day; }
+    public LocalTime getStartTime() { return startTime; }
+    public void setStartTime(LocalTime startTime) { this.startTime = startTime; }
+    public LocalTime getEndTime() { return endTime; }
+    public void setEndTime(LocalTime endTime) { this.endTime = endTime; }
+    public int getMaxPatients() { return maxPatients; }
+    public void setMaxPatients(int maxPatients) { this.maxPatients = maxPatients; }
+    public int getBookedPatients() { return bookedPatients; }
+    public void setBookedPatients(int bookedPatients) { this.bookedPatients = bookedPatients; }
+    public LocalDate getAvailableDate() { return availableDate; }
+    public void setAvailableDate(LocalDate availableDate) { this.availableDate = availableDate; }
+    public Doctor getDoctor() { return doctor; }
+    public void setDoctor(Doctor doctor) { this.doctor = doctor; }
 }

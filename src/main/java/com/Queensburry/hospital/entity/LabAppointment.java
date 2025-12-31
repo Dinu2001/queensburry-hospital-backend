@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
 @Table(name = "lab_appointment")
@@ -54,6 +55,7 @@ public class LabAppointment {
         this.labTest = labTest;
         this.payments = payments;
     }
+
 
     public String getLabAppointmentId() {
         return labAppointmentId;

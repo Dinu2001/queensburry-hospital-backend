@@ -51,4 +51,21 @@ public class LabAppointmentController {
         }
     }
 
+    @PutMapping("/update/{labId}")
+    public ResponseEntity<StandardResponse> updateIfItComplete(@PathVariable String labId){
+        String message = labAppointmentService.updateLabAppointmentStatus(labId);
+        if (message != null) {
+            return new ResponseEntity<>(
+                    new StandardResponse(200, "lab appointment update successfully" , message),
+                    HttpStatus.OK
+            );
+        } else {
+            return new ResponseEntity<>(
+                    new StandardResponse(400, "Error in lab appointment updating", message),
+                    HttpStatus.BAD_REQUEST
+            );
+        }
+    }
+
+
 }

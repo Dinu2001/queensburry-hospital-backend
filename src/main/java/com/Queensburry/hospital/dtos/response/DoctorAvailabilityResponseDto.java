@@ -6,22 +6,18 @@ import java.time.LocalTime;
 public class DoctorAvailabilityResponseDto {
 
     private Long id;
-    private LocalDate availableDate;
+    private String day;
     private LocalTime startTime;
     private LocalTime endTime;
     private int maxPatients;
     private int bookedPatients;
 
-    public DoctorAvailabilityResponseDto(
-            Long id,
-            LocalDate availableDate,
-            LocalTime startTime,
-            LocalTime endTime,
-            int maxPatients,
-            int bookedPatients
-    ) {
+    public DoctorAvailabilityResponseDto() {
+    }
+
+    public DoctorAvailabilityResponseDto(Long id, String day, LocalTime startTime, LocalTime endTime, int maxPatients, int bookedPatients) {
         this.id = id;
-        this.availableDate = availableDate;
+        this.day = day;
         this.startTime = startTime;
         this.endTime = endTime;
         this.maxPatients = maxPatients;
@@ -36,12 +32,12 @@ public class DoctorAvailabilityResponseDto {
         this.id = id;
     }
 
-    public LocalDate getAvailableDate() {
-        return availableDate;
+    public String getDay() {
+        return day;
     }
 
-    public void setAvailableDate(LocalDate availableDate) {
-        this.availableDate = availableDate;
+    public void setDay(String day) {
+        this.day = day;
     }
 
     public LocalTime getStartTime() {

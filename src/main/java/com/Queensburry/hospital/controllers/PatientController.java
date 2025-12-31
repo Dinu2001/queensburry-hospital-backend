@@ -54,4 +54,55 @@ public class PatientController {
     }
 
 
+    @GetMapping("/{userId}")
+    public ResponseEntity<StandardResponse> getPatientId(@PathVariable String userId){
+        String id = patientService.getPatientId(userId);
+        if (id != null) {
+            return new ResponseEntity<>(
+                    new StandardResponse(200, "id ", id),
+                    HttpStatus.OK
+            );
+        } else {
+            return new ResponseEntity<>(
+                    new StandardResponse(400, "Error in getting patients details", null),
+                    HttpStatus.BAD_REQUEST
+            );
+        }
+    }
+
+    @GetMapping("/search/{userName}")
+    public ResponseEntity<StandardResponse> getPatientNameAndId(@PathVariable String userName){
+        List<PatientResponseDto> dtos = patientService.getPatientNameAndId(userName);
+        if (dtos != null) {
+            return new ResponseEntity<>(
+                    new StandardResponse(200, "id ", dtos),
+                    HttpStatus.OK
+            );
+        } else {
+            return new ResponseEntity<>(
+                    new StandardResponse(400, "Error in getting patients details", null),
+                    HttpStatus.BAD_REQUEST
+            );
+        }
+    }
+
+
+    @GetMapping("/get-patient/{id}")
+    public ResponseEntity<StandardResponse> getUserDetailsUsingId(@PathVariable String id){
+        PatientResponseDto patientResponseDto = patientService.getUserDetailsUsingId(id);
+        if (patientResponseDto != null) {
+            return new ResponseEntity<>(
+                    new StandardResponse(200, "details ", patientResponseDto),
+                    HttpStatus.OK
+            );
+        } else {
+            return new ResponseEntity<>(
+                    new StandardResponse(400, "Error in getting patients details", null),
+                    HttpStatus.BAD_REQUEST
+            );
+        }
+    }
+
+
+
 }

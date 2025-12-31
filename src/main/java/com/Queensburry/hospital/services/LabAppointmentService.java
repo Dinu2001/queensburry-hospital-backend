@@ -4,9 +4,11 @@ import com.Queensburry.hospital.dtos.request.LabAppointmentRequestDto;
 import com.Queensburry.hospital.dtos.response.LabAppointmentResponseDto;
 import com.Queensburry.hospital.dtos.response.LabTestResponseDto;
 import com.Queensburry.hospital.entity.LabAppointment;
+import com.Queensburry.hospital.entity.LabTest;
 import com.Queensburry.hospital.entity.Patient;
 import com.Queensburry.hospital.entity.User;
 import com.Queensburry.hospital.repo.LabAppointmentRepo;
+import com.Queensburry.hospital.repo.LabTestRepo;
 import com.Queensburry.hospital.repo.PatientRepo;
 import com.Queensburry.hospital.repo.UserRepo;
 import com.Queensburry.hospital.utils.EmailSender;
@@ -45,49 +47,84 @@ public class LabAppointmentService {
     @Autowired
     private EmailSender emailSender;
 
-    public String saveLabAppointment(LabAppointmentRequestDto labAppointmentRequestDto) {
+    @Autowired
+    private LabTestRepo labTestRepo;
+
+
+
+
+
+
+    public String saveLabAppointment(LabAppointmentRequestDto dto) {
+        if (dto == null) {
+            System.out.println("LabAppointmentRequestDto is null");
+            return null;
+        }
+
+        if (dto.getPatientDto() == null || dto.getPatientDto().getPatientId() == null) {
+            System.out.println("Patient ID is missing in the request");
+            return null;
+        }
+
+        if (dto.getLabTestDto() == null || dto.getLabTestDto().getLabTestId() == null) {
+            System.out.println("LabTest ID is missing in the request");
+            return null;
+        }
+
         try {
+            // Fetch Patient
+            Patient patient = patientRepo.findById(dto.getPatientDto().getPatientId())
+                    .orElseThrow(() -> new IllegalArgumentException("Patient not found with ID: " + dto.getPatientDto().getPatientId()));
+
+            // Fetch LabTest
+            LabTest labTest = labTestRepo.findById(dto.getLabTestDto().getLabTestId())
+                    .orElseThrow(() -> new IllegalArgumentException("LabTest not found with ID: " + dto.getLabTestDto().getLabTestId()));
+
+            // Create LabAppointment
             LabAppointment labAppointment = new LabAppointment(
                     generateOneAfterOne(),
-                    labAppointmentRequestDto.getAppointmentDate(),
-                    labAppointmentRequestDto.getAppointmentTime(),
-                    labAppointmentRequestDto.getStatus(),
-                    labAppointmentRequestDto.getPayment_status(),
-                    labAppointmentRequestDto.getPatient(),
-                    labAppointmentRequestDto.getLabTest()
+                    dto.getAppointmentDate(),
+                    dto.getAppointmentTime(),
+                    dto.getStatus() != null ? dto.getStatus() : "Scheduled",
+                    dto.getPayment_status() != null ? dto.getPayment_status() : true,
+                    patient,
+                    labTest
             );
 
+            // Save appointment
             LabAppointment saved = labAppointmentRepo.save(labAppointment);
 
-            if (saved != null) {
-                Optional<Patient> patientOpt = patientRepo.findById(saved.getPatient().getPatientId());
-                if (patientOpt.isPresent()) {
-                    Optional<User> userOpt = userRepo.findById(patientOpt.get().getUser().getUserId());
-                    if (userOpt.isPresent()) {
-                        User user = userOpt.get();
-                        String email = user.getEmail();
+            // Send confirmation email if user exists
+            User user = patient.getUser();
+            if (user != null && user.getEmail() != null) {
+                try {
+                    String htmlContent = new String(Files.readAllBytes(
+                            Paths.get("src/main/resources/templates/lab_appointment_email.html")
+                    ));
+                    htmlContent = htmlContent.replace("{{name}}", user.getFirstName() != null ? user.getFirstName() : "")
+                            .replace("{{appointmentId}}", saved.getLabAppointmentId())
+                            .replace("{{appointmentDate}}", saved.getAppointmentDate().toString())
+                            .replace("{{appointmentTime}}", saved.getAppointmentTime().toString())
+                            .replace("{{labTest}}", saved.getLabTest().getTestName());
 
-
-                        String htmlContent = new String(
-                                Files.readAllBytes(Paths.get("src/main/resources/templates/lab_appointment_email.html"))
-                        );
-                        htmlContent = htmlContent.replace("{{name}}", user.getFirstName())
-                                .replace("{{appointmentId}}", saved.getLabAppointmentId())
-                                .replace("{{appointmentDate}}", saved.getAppointmentDate().toString())
-                                .replace("{{appointmentTime}}", saved.getAppointmentTime().toString())
-                                .replace("{{labTest}}", saved.getLabTest().getTestName());
-
-                        emailSender.sendLabAppointmentEmail(email, "Lab Appointment Confirmation", htmlContent);
-                    }
+                    emailSender.sendLabAppointmentEmail(user.getEmail(), "Lab Appointment Confirmation", htmlContent);
+                } catch (Exception e) {
+                    System.out.println("Error sending email: " + e.getMessage());
                 }
             }
 
             return saved.getLabAppointmentId();
+
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("Error saving lab appointment: " + e.getMessage());
+            e.printStackTrace();
             return null;
         }
     }
+
+
+
+
 
     public List<LabAppointmentResponseDto> getAll() {
         try{
@@ -108,5 +145,16 @@ public class LabAppointmentService {
             System.out.println(e);
             return null;
         }
+    }
+
+
+
+    public String updateLabAppointmentStatus(String labId) {
+        LabAppointment appointment = labAppointmentRepo.findById(labId)
+                .orElseThrow(() -> new RuntimeException("Lab appointment not found"));
+        appointment.setStatus("COMPLETED");
+        labAppointmentRepo.save(appointment);
+
+        return "Updated successfully";
     }
 }

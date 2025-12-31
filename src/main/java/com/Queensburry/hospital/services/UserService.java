@@ -131,4 +131,20 @@ public class UserService {
             return null;
         }
     }
+
+    public String activateUser(String email) {
+        try{
+            User user = userRepo.findByEmail(email);
+            if(user != null){
+                user.setStatus("ACTIVE");
+            }
+            userRepo.save(user);
+
+            return "Activate user "+email;
+
+        }catch (Exception ex){
+            System.out.println(ex);
+            return null;
+        }
+    }
 }

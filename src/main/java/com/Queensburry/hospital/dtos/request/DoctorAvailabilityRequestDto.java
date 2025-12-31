@@ -1,15 +1,32 @@
 package com.Queensburry.hospital.dtos.request;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import com.Queensburry.hospital.dtos.common.TimeSlotDto;
+
+import java.time.DayOfWeek;
+import java.util.List;
 
 public class DoctorAvailabilityRequestDto {
 
     private String doctorId;
-    private LocalDate availableDate;
-    private LocalTime startTime;
-    private LocalTime endTime;
-    private int maxPatients;
+    private List<DayOfWeek> days;
+    private List<TimeSlotDto> timeSlots;
+
+    public DoctorAvailabilityRequestDto() {
+    }
+
+    public DoctorAvailabilityRequestDto(String doctorId, List<DayOfWeek> days, List<TimeSlotDto> timeSlots) {
+        this.doctorId = doctorId;
+        this.days = days;
+        this.timeSlots = timeSlots;
+    }
+
+    public List<DayOfWeek> getDays() {
+        return days;
+    }
+
+    public void setDays(List<DayOfWeek> days) {
+        this.days = days;
+    }
 
     public String getDoctorId() {
         return doctorId;
@@ -19,35 +36,13 @@ public class DoctorAvailabilityRequestDto {
         this.doctorId = doctorId;
     }
 
-    public LocalDate getAvailableDate() {
-        return availableDate;
+
+
+    public List<TimeSlotDto> getTimeSlots() {
+        return timeSlots;
     }
 
-    public void setAvailableDate(LocalDate availableDate) {
-        this.availableDate = availableDate;
-    }
-
-    public LocalTime getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(LocalTime startTime) {
-        this.startTime = startTime;
-    }
-
-    public LocalTime getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(LocalTime endTime) {
-        this.endTime = endTime;
-    }
-
-    public int getMaxPatients() {
-        return maxPatients;
-    }
-
-    public void setMaxPatients(int maxPatients) {
-        this.maxPatients = maxPatients;
+    public void setTimeSlots(List<TimeSlotDto> timeSlots) {
+        this.timeSlots = timeSlots;
     }
 }

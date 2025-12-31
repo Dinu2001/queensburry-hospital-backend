@@ -106,6 +106,22 @@ public class UserController {
         }
     }
 
+    @PutMapping("/activate/{email}")
+    public ResponseEntity<StandardResponse> activateUser(@PathVariable String email){
+        String message = userService.activateUser(email);
+        if (message != null) {
+            return new ResponseEntity<>(
+                    new StandardResponse(200, "activate "+ email,null),
+                    HttpStatus.OK
+            );
+        } else {
+            return new ResponseEntity<>(
+                    new StandardResponse(400, "Error in getting user details "+email, null),
+                    HttpStatus.NOT_FOUND
+            );
+        }
+    }
+
 
 
 

@@ -1,4 +1,6 @@
 package com.Queensburry.hospital.dtos.request;
+import com.Queensburry.hospital.dtos.common.LabTestDto;
+import com.Queensburry.hospital.dtos.common.PatientDto;
 import com.Queensburry.hospital.entity.LabTest;
 import com.Queensburry.hospital.entity.Patient;
 import java.sql.Date;
@@ -11,22 +13,37 @@ public class LabAppointmentRequestDto {
     private Time appointmentTime;
     private String status;
     private Boolean payment_status;
-    private Patient patient;
-    private LabTest labTest;
+    private PatientDto patientDto;
+    private LabTestDto labTestDto;
 
     public LabAppointmentRequestDto() {
     }
 
-    public LabAppointmentRequestDto(String labAppointmentId, Date appointmentDate, Time appointmentTime, String status, Boolean payment_status, Patient patient, LabTest labTest) {
+    public LabAppointmentRequestDto(String labAppointmentId, Date appointmentDate, Time appointmentTime, String status, Boolean payment_status, PatientDto patientDto, LabTestDto labTestDto) {
         this.labAppointmentId = labAppointmentId;
         this.appointmentDate = appointmentDate;
         this.appointmentTime = appointmentTime;
         this.status = status;
         this.payment_status = payment_status;
-        this.patient = patient;
-        this.labTest = labTest;
+        this.patientDto = patientDto;
+        this.labTestDto = labTestDto;
     }
 
+    public PatientDto getPatientDto() {
+        return patientDto;
+    }
+
+    public void setPatientDto(PatientDto patientDto) {
+        this.patientDto = patientDto;
+    }
+
+    public LabTestDto getLabTestDto() {
+        return labTestDto;
+    }
+
+    public void setLabTestDto(LabTestDto labTestDto) {
+        this.labTestDto = labTestDto;
+    }
 
     public String getLabAppointmentId() {
         return labAppointmentId;
@@ -68,19 +85,5 @@ public class LabAppointmentRequestDto {
         this.payment_status = payment_status;
     }
 
-    public Patient getPatient() {
-        return patient;
-    }
 
-    public void setPatient(Patient patient) {
-        this.patient = patient;
-    }
-
-    public LabTest getLabTest() {
-        return labTest;
-    }
-
-    public void setLabTest(LabTest labTest) {
-        this.labTest = labTest;
-    }
 }
