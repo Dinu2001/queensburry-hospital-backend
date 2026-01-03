@@ -1,7 +1,8 @@
 package com.Queensburry.hospital.controllers;
 
+import com.Queensburry.hospital.dtos.request.LoginRequestDto;
 import com.Queensburry.hospital.dtos.request.UserRegistrationDto;
-import com.Queensburry.hospital.dtos.response.LabTestResponseDto;
+import com.Queensburry.hospital.dtos.response.LoginResponseDto;
 import com.Queensburry.hospital.dtos.response.UserResponseDto;
 import com.Queensburry.hospital.services.UserService;
 import com.Queensburry.hospital.utils.StandardResponse;
@@ -17,6 +18,26 @@ import java.util.List;
 public class UserController {
     @Autowired
     private UserService userService;
+
+
+    @PostMapping("/authentication")
+    public ResponseEntity<StandardResponse> userLogin(@RequestBody LoginRequestDto loginRequestDto){
+        String token = userService.authentication(loginRequestDto);
+        UserResponseDto userResponseDto = userService.findUserByEmail(loginRequestDto.getEmail());
+        LoginResponseDto loginResponseDto= new LoginResponseDto(
+                token,userResponseDto
+        );
+        if(userResponseDto != null){
+            return new ResponseEntity<>(
+                    new StandardResponse(200,"login successfull",loginResponseDto),HttpStatus.OK
+            );
+        }else{
+            return null;
+        }
+    }
+
+
+
 
     @PostMapping("/save")
     public ResponseEntity<StandardResponse> saveUser(@RequestBody UserRegistrationDto userRegistrationDto){
@@ -34,6 +55,9 @@ public class UserController {
         }
     }
 
+
+
+
     @GetMapping("/")
     public ResponseEntity<StandardResponse> getAllUsers(){
         List<UserResponseDto> allUsers = userService.getAllUsers();
@@ -49,6 +73,10 @@ public class UserController {
             );
         }
     }
+
+
+
+
 
     @GetMapping("/{userName}")
     public ResponseEntity<StandardResponse> searchUser(@PathVariable String userName){

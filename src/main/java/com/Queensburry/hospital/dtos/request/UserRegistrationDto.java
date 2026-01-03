@@ -1,7 +1,6 @@
 package com.Queensburry.hospital.dtos.request;
 
 import java.util.Date;
-import java.util.UUID;
 
 public class UserRegistrationDto {
     private String userId;
@@ -90,4 +89,6 @@ public class UserRegistrationDto {
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
+
+
 }

@@ -7,7 +7,9 @@ import com.Queensburry.hospital.entity.User;
 import com.Queensburry.hospital.repo.DoctorRepo;
 import com.Queensburry.hospital.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.print.Doc;
 import java.time.LocalDate;
@@ -38,6 +40,9 @@ public class DoctorService {
     }
 
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
 
     public String saveDoctor(DoctorRegisterDto doctorRegisterDto) {
         try {
@@ -55,7 +60,7 @@ public class DoctorService {
                     doctorRegisterDto.getEmail(),
                     "DOCTOR",
                     "ACTIVATE",
-                    doctorRegisterDto.getPassword(),
+                    passwordEncoder.encode(doctorRegisterDto.getPassword()),
                     createdDate
             );
 

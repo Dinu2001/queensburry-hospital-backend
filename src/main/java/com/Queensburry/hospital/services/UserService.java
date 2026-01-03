@@ -1,12 +1,16 @@
 package com.Queensburry.hospital.services;
 
+import com.Queensburry.hospital.configurations.JwtService;
+import com.Queensburry.hospital.dtos.request.LoginRequestDto;
 import com.Queensburry.hospital.dtos.request.UserRegistrationDto;
-import com.Queensburry.hospital.dtos.response.LabTestResponseDto;
 import com.Queensburry.hospital.dtos.response.UserResponseDto;
-import com.Queensburry.hospital.entity.LabTest;
 import com.Queensburry.hospital.entity.User;
 import com.Queensburry.hospital.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -16,6 +20,9 @@ import java.util.List;
 public class UserService {
     @Autowired
     private UserRepo userRepo;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
 
     public String generateUserIdOneAfterOne() {
@@ -29,6 +36,40 @@ public class UserService {
     }
 
 
+    public UserResponseDto findUserByEmail(String userName){
+        User user= userRepo.findByEmail(userName);
+        if(user == null){
+            return null;
+        }else{
+            return new UserResponseDto(
+                    user.getUserId(),user.getFirstName(),user.getLastName(),
+                    user.getEmail(),user.getRole(),user.getStatus(),user.getCreatedAt()
+            );
+        }
+
+    }
+
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private JwtService jwtService;
+
+    public String authentication(LoginRequestDto loginRequestDto){
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        loginRequestDto.getEmail(),loginRequestDto.getPassword()
+                )
+        );
+        if(authentication.isAuthenticated()){
+            return jwtService.generateToken(loginRequestDto.getEmail());
+        }
+        throw new RuntimeException();
+    }
+
+
+
 
 
 
@@ -37,7 +78,7 @@ public class UserService {
             User user = new User(
                     generateUserIdOneAfterOne(),userRegistrationDto.getFirstName(),userRegistrationDto.getLastName(),
                     userRegistrationDto.getEmail(),userRegistrationDto.getRole(),userRegistrationDto.getStatus(),
-                    userRegistrationDto.getPassword(),userRegistrationDto.getCreatedAt()
+                    passwordEncoder.encode(userRegistrationDto.getPassword()),userRegistrationDto.getCreatedAt()
             );
             User saved =userRepo.save(user);
             if(saved != null){
@@ -72,6 +113,12 @@ public class UserService {
         }
 
     }
+
+
+
+
+
+
 
     public List<UserResponseDto> searchUserByName(String userName) {
         try{
