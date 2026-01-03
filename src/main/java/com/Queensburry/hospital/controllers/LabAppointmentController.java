@@ -67,5 +67,22 @@ public class LabAppointmentController {
         }
     }
 
+    @GetMapping("/patient/{patientId}")
+    public ResponseEntity<StandardResponse> getAllLabAppointmentOfUser(@PathVariable String patientId){
+        List<LabAppointmentResponseDto> labAppointmentResponseDtos = labAppointmentService.getAllByUserId(patientId);
+        if(labAppointmentResponseDtos == null){
+            return new ResponseEntity<>(
+                    new StandardResponse(400, "Error in lab appointment ", null),
+                    HttpStatus.BAD_REQUEST
+            );
+        }else{
+            return new ResponseEntity<>(
+                    new StandardResponse(200, "lab appointment" , labAppointmentResponseDtos),
+                    HttpStatus.OK
+            );
+        }
+    }
+
+
 
 }

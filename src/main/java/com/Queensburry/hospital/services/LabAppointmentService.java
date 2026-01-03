@@ -157,4 +157,28 @@ public class LabAppointmentService {
 
         return "Updated successfully";
     }
+
+    public List<LabAppointmentResponseDto> getAllByUserId(String patientId) {
+
+        try{
+            List<LabAppointmentResponseDto> labAppointmentResponseDtos = new ArrayList<>();
+            List<LabAppointment> labAppointments = labAppointmentRepo.findAllByPatient_PatientId(patientId);
+
+            for(LabAppointment labAppointment:labAppointments){
+                LabAppointmentResponseDto labAppointmentResponseDto = new LabAppointmentResponseDto(
+                        labAppointment.getLabAppointmentId(),labAppointment.getAppointmentDate(),labAppointment.getAppointmentTime(),
+                        labAppointment.getStatus(),labAppointment.getPayment_status(),labAppointment.getPatient().getUser().getFirstName(),labAppointment.getPatient().getUser().getEmail(),labAppointment.getLabTest().getTestName()
+                );
+
+                labAppointmentResponseDtos.add(labAppointmentResponseDto);
+            }
+            return labAppointmentResponseDtos;
+
+        }catch (Exception e){
+            System.out.println(e);
+            return null;
+        }
+
+
+    }
 }
