@@ -37,7 +37,7 @@ public class WebConfiguration {
                 .formLogin(Customizer.withDefaults()).httpBasic(Customizer.withDefaults())
                 .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(registry->registry.requestMatchers(
-                        "/api/v1/user/authentication","/api/v1/user/register","/api/v1/doctor/save","/api/v1/user/save","/api/v1/patient/save","/api/v1/lab-test/").permitAll()
+                        "/api/v1/user/authentication","/api/v1/user/register","/api/v1/doctor/save","/api/v1/user/save","/api/v1/patient/save","/api/v1/lab-test/","/api/v1/doctor-availability/").permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
