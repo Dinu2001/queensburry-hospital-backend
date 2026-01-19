@@ -75,6 +75,24 @@ public class UserController {
     }
 
 
+    @GetMapping("/get-by-id/{userId}")
+    public ResponseEntity<StandardResponse> getUsers(@PathVariable String userId){
+        List<UserResponseDto> allUsers = userService.getUserDetails(userId);
+        if (allUsers != null) {
+            return new ResponseEntity<>(
+                    new StandardResponse(200, "All the users", allUsers),
+                    HttpStatus.OK
+            );
+        } else {
+            return new ResponseEntity<>(
+                    new StandardResponse(400, "Error in getting user details", null),
+                    HttpStatus.BAD_REQUEST
+            );
+        }
+    }
+
+
+
 
 
 
@@ -93,6 +111,8 @@ public class UserController {
             );
         }
     }
+
+
 
 
 

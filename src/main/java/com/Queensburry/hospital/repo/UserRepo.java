@@ -23,4 +23,6 @@ public interface UserRepo extends JpaRepository<User,String> {
 
     @Query(value = "SELECT user_id FROM users ORDER BY user_id DESC LIMIT 1", nativeQuery = true)
     String getLastUserId();
+
+    List<User> findByUserId(String userId);
 }

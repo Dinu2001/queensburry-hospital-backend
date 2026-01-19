@@ -194,4 +194,25 @@ public class UserService {
             return null;
         }
     }
+
+    public List<UserResponseDto> getUserDetails(String userId) {
+        try{
+            List<UserResponseDto> userResponseDtoList = new ArrayList<>();
+            List<User> users = userRepo.findByUserId(userId);
+
+            for(User user:users){
+                UserResponseDto userResponseDto = new UserResponseDto(
+                        user.getUserId(),user.getFirstName(),user.getLastName(),user.getEmail(),user.getRole(),user.getStatus(),
+                        user.getCreatedAt()
+                );
+                userResponseDtoList.add(userResponseDto);
+            }
+
+            return userResponseDtoList;
+
+        }catch (Exception ex){
+            System.out.println(ex);
+            return null;
+        }
+    }
 }
