@@ -85,6 +85,38 @@ public class EmailSender {
 
 
 
+    public void sendPaymentSuccessEmail(String toEmail, Map<String, Object> variables) throws MessagingException {
+        // Load your HTML template
+        String html = loadHtmlTemplate("src/main/resources/templates/payment-success.html");
+
+        // Null-safe replacements for all placeholders
+        for (Map.Entry<String, Object> entry : variables.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+            String safeValue = value != null ? value.toString() : "";
+            html = html.replace("{{" + key + "}}", safeValue);
+        }
+
+        // Remove any leftover placeholders that are not in the map
+        html = html.replaceAll("\\{\\{\\w+}}", "");
+
+        MimeMessage msg = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(msg, "utf-8");
+
+        helper.setTo(toEmail);
+        helper.setSubject("Payment Successful - " + variables.getOrDefault("clinicName", "Clinic"));
+        helper.setText(html, true);
+        helper.setFrom("noreply@" + variables.getOrDefault("clinicDomain", "hospital.com"));
+
+        mailSender.send(msg);
+    }
+
+
+
+
+
+
+
     public void sendLabAppointmentEmail(String to, String subject, String htmlContent) throws MessagingException {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);

@@ -141,4 +141,6 @@ public class Patient {
     public void setPayments(List<Payment> payments) {
         this.payments = payments;
     }
+
+
 }

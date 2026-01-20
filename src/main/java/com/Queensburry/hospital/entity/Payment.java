@@ -14,21 +14,13 @@ public class Payment {
     @GeneratedValue
     private UUID payment_id;
 
-
     @ManyToOne
     @JoinColumn(name = "patient_id", nullable = false)
     private Patient patient;
 
     @ManyToOne
-    @JoinColumn(name = "doctor_appointment_id", nullable = true)
+    @JoinColumn(name = "doctor_appointment_id", nullable = false)
     private DoctorAppointment doctorAppointment;
-
-
-    @ManyToOne
-    @JoinColumn(name = "lab_appointment_id", nullable = true)
-    private LabAppointment labAppointment;
-
-
 
     private Double amount;
     private String paymentMethod;
@@ -37,14 +29,19 @@ public class Payment {
     private Time paymentTime;
 
 
+    //    @ManyToOne
+//    @JoinColumn(name = "lab_appointment_id", nullable = true)
+//    private LabAppointment labAppointment;
+
+
+
     public Payment() {
     }
 
-    public Payment(UUID payment_id, Patient patient, DoctorAppointment doctorAppointment, LabAppointment labAppointment, Double amount, String paymentMethod, Date paymentDate, Time paymentTime) {
+    public Payment(UUID payment_id, Patient patient, DoctorAppointment doctorAppointment, Double amount, String paymentMethod, Date paymentDate, Time paymentTime) {
         this.payment_id = payment_id;
         this.patient = patient;
         this.doctorAppointment = doctorAppointment;
-        this.labAppointment = labAppointment;
         this.amount = amount;
         this.paymentMethod = paymentMethod;
         this.paymentDate = paymentDate;
@@ -75,13 +72,7 @@ public class Payment {
         this.doctorAppointment = doctorAppointment;
     }
 
-    public LabAppointment getLabAppointment() {
-        return labAppointment;
-    }
 
-    public void setLabAppointment(LabAppointment labAppointment) {
-        this.labAppointment = labAppointment;
-    }
 
     public Double getAmount() {
         return amount;

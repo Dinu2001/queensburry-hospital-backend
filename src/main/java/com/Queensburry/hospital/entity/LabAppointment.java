@@ -29,8 +29,8 @@ public class LabAppointment {
     @JoinColumn(name = "lab_id", nullable = false)
     private LabTest labTest;
 
-    @OneToMany(mappedBy = "labAppointment", cascade = CascadeType.ALL)
-    private List<Payment> payments;
+//    @OneToMany(mappedBy = "labAppointment", cascade = CascadeType.ALL)
+//    private List<Payment> payments;
 
     public LabAppointment() {
     }
@@ -45,16 +45,16 @@ public class LabAppointment {
         this.labTest = labTest;
     }
 
-    public LabAppointment(String labAppointmentId, Date appointmentDate, Time appointmentTime, String status, Boolean payment_status, Patient patient, LabTest labTest, List<Payment> payments) {
-        this.labAppointmentId = labAppointmentId;
-        this.appointmentDate = appointmentDate;
-        this.appointmentTime = appointmentTime;
-        this.status = status;
-        this.payment_status = payment_status;
-        this.patient = patient;
-        this.labTest = labTest;
-        this.payments = payments;
-    }
+//    public LabAppointment(String labAppointmentId, Date appointmentDate, Time appointmentTime, String status, Boolean payment_status, Patient patient, LabTest labTest, List<Payment> payments) {
+//        this.labAppointmentId = labAppointmentId;
+//        this.appointmentDate = appointmentDate;
+//        this.appointmentTime = appointmentTime;
+//        this.status = status;
+//        this.payment_status = payment_status;
+//        this.patient = patient;
+//        this.labTest = labTest;
+//        this.payments = payments;
+//    }
 
 
     public String getLabAppointmentId() {
@@ -113,11 +113,11 @@ public class LabAppointment {
         this.labTest = labTest;
     }
 
-    public List<Payment> getPayments() {
-        return payments;
-    }
-
-    public void setPayments(List<Payment> payments) {
-        this.payments = payments;
-    }
+//    public List<Payment> getPayments() {
+//        return payments;
+//    }
+//
+//    public void setPayments(List<Payment> payments) {
+//        this.payments = payments;
+//    }
 }
