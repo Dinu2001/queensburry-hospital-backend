@@ -86,7 +86,7 @@ public class LabAppointmentService {
                     dto.getAppointmentDate(),
                     dto.getAppointmentTime(),
                     dto.getStatus() != null ? dto.getStatus() : "Scheduled",
-                    dto.getPayment_status() != null ? dto.getPayment_status() : true,
+                    dto.getPayment_status() != null ? dto.getPayment_status() : false,
                     patient,
                     labTest
             );
