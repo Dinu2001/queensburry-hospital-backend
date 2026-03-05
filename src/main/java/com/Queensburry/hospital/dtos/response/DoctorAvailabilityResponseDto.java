@@ -1,6 +1,6 @@
 package com.Queensburry.hospital.dtos.response;
 
-import java.time.LocalDate;
+
 import java.time.LocalTime;
 
 public class DoctorAvailabilityResponseDto {
@@ -9,19 +9,19 @@ public class DoctorAvailabilityResponseDto {
     private String day;
     private LocalTime startTime;
     private LocalTime endTime;
-    private int maxPatients;
-    private int bookedPatients;
+//    private int maxPatients;
+//    private int bookedPatients;
 
     public DoctorAvailabilityResponseDto() {
     }
 
-    public DoctorAvailabilityResponseDto(Long id, String day, LocalTime startTime, LocalTime endTime, int maxPatients, int bookedPatients) {
+    public DoctorAvailabilityResponseDto(Long id, String day, LocalTime startTime, LocalTime endTime) {
         this.id = id;
         this.day = day;
         this.startTime = startTime;
         this.endTime = endTime;
-        this.maxPatients = maxPatients;
-        this.bookedPatients = bookedPatients;
+ //       this.maxPatients = maxPatients;
+//        this.bookedPatients = bookedPatients;
     }
 
     public Long getId() {
@@ -56,19 +56,19 @@ public class DoctorAvailabilityResponseDto {
         this.endTime = endTime;
     }
 
-    public int getMaxPatients() {
-        return maxPatients;
-    }
+//    public int getMaxPatients() {
+//        return maxPatients;
+//    }
+//
+//    public void setMaxPatients(int maxPatients) {
+//        this.maxPatients = maxPatients;
+//    }
 
-    public void setMaxPatients(int maxPatients) {
-        this.maxPatients = maxPatients;
-    }
-
-    public int getBookedPatients() {
-        return bookedPatients;
-    }
-
-    public void setBookedPatients(int bookedPatients) {
-        this.bookedPatients = bookedPatients;
-    }
+//    public int getBookedPatients() {
+//        return bookedPatients;
+//    }
+//
+//    public void setBookedPatients(int bookedPatients) {
+//        this.bookedPatients = bookedPatients;
+//    }
 }

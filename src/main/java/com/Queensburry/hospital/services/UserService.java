@@ -13,7 +13,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -75,10 +78,15 @@ public class UserService {
 
     public String saveUser(UserRegistrationDto userRegistrationDto) {
         try{
+            LocalDate localDate = LocalDate.now();
+            Date createdDate = Date.from(
+                    localDate.atStartOfDay(ZoneId.systemDefault()).toInstant()
+            );
+
             User user = new User(
                     generateUserIdOneAfterOne(),userRegistrationDto.getFirstName(),userRegistrationDto.getLastName(),
                     userRegistrationDto.getEmail(),userRegistrationDto.getRole(),userRegistrationDto.getStatus(),
-                    passwordEncoder.encode(userRegistrationDto.getPassword()),userRegistrationDto.getCreatedAt()
+                    passwordEncoder.encode(userRegistrationDto.getPassword()),createdDate
             );
             User saved =userRepo.save(user);
             if(saved != null){

@@ -23,11 +23,11 @@ public class DoctorAvailability {
     @Column(nullable = false)
     private LocalTime endTime;
 
-    @Column(nullable = false)
-    private int maxPatients;
+//    @Column(nullable = false)
+//    private int maxPatients;
 
-    @Column(nullable = false)
-    private int bookedPatients = 0;
+//    @Column(nullable = false)
+//    private int bookedPatients = 0;
 
     @Column(nullable = false)
     private LocalDate availableDate;
@@ -38,15 +38,25 @@ public class DoctorAvailability {
 
     public DoctorAvailability() {}
 
-    public DoctorAvailability(DayOfWeek day, LocalTime startTime, LocalTime endTime,
-                              int maxPatients, Doctor doctor, LocalDate availableDate) {
+//    public DoctorAvailability(DayOfWeek day, LocalTime startTime, LocalTime endTime,
+//                              int maxPatients, Doctor doctor, LocalDate availableDate) {
+//        this.day = day;
+//        this.startTime = startTime;
+//        this.endTime = endTime;
+//        this.maxPatients = maxPatients;
+//        this.bookedPatients = 0;
+//        this.doctor = doctor;
+//        this.availableDate = availableDate;
+//    }
+
+
+    public DoctorAvailability(Long id, DayOfWeek day, LocalTime startTime, LocalTime endTime, LocalDate availableDate, Doctor doctor) {
+        this.id = id;
         this.day = day;
         this.startTime = startTime;
         this.endTime = endTime;
-        this.maxPatients = maxPatients;
-        this.bookedPatients = 0;
-        this.doctor = doctor;
         this.availableDate = availableDate;
+        this.doctor = doctor;
     }
 
     // Getters & setters
@@ -57,10 +67,10 @@ public class DoctorAvailability {
     public void setStartTime(LocalTime startTime) { this.startTime = startTime; }
     public LocalTime getEndTime() { return endTime; }
     public void setEndTime(LocalTime endTime) { this.endTime = endTime; }
-    public int getMaxPatients() { return maxPatients; }
-    public void setMaxPatients(int maxPatients) { this.maxPatients = maxPatients; }
-    public int getBookedPatients() { return bookedPatients; }
-    public void setBookedPatients(int bookedPatients) { this.bookedPatients = bookedPatients; }
+//    public int getMaxPatients() { return maxPatients; }
+//    public void setMaxPatients(int maxPatients) { this.maxPatients = maxPatients; }
+//    public int getBookedPatients() { return bookedPatients; }
+//    public void setBookedPatients(int bookedPatients) { this.bookedPatients = bookedPatients; }
     public LocalDate getAvailableDate() { return availableDate; }
     public void setAvailableDate(LocalDate availableDate) { this.availableDate = availableDate; }
     public Doctor getDoctor() { return doctor; }

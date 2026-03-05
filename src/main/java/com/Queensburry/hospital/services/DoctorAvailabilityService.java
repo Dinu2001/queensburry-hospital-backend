@@ -1,11 +1,10 @@
 package com.Queensburry.hospital.services;
 
-import com.Queensburry.hospital.dtos.common.TimeSlotDto;
+
 import com.Queensburry.hospital.dtos.request.DoctorAvailabilityRequestDto;
 import com.Queensburry.hospital.dtos.response.DateAndTimeResponseDto;
 import com.Queensburry.hospital.dtos.response.DoctorAvailabilityResponseDto;
 import com.Queensburry.hospital.dtos.response.DoctorDayResponseDto;
-import com.Queensburry.hospital.dtos.response.DoctorResponseDto;
 import com.Queensburry.hospital.entity.Doctor;
 import com.Queensburry.hospital.entity.DoctorAvailability;
 import com.Queensburry.hospital.repo.DoctorAvailabilityRepo;
@@ -16,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.sql.Time;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -52,9 +50,9 @@ public class DoctorAvailabilityService {
                 availability.setDay(day);
                 availability.setStartTime(slot.getStartTime());
                 availability.setEndTime(slot.getEndTime());
-                availability.setMaxPatients(slot.getMaxPatients());
-                availability.setBookedPatients(0);
-                availability.setAvailableDate(LocalDate.now()); // ✅ MUST set a value
+//                availability.setMaxPatients(slot.getMaxPatients());
+//                availability.setBookedPatients(0);
+                availability.setAvailableDate(LocalDate.now());
                 schedules.add(availability);
             }
         }
@@ -70,19 +68,19 @@ public class DoctorAvailabilityService {
                         a.getId(),
                         a.getDay().toString(),
                         a.getStartTime(),
-                        a.getEndTime(),
-                        a.getMaxPatients(),
-                        a.getBookedPatients()
+                        a.getEndTime()
+
+
                 ))
                 .toList();
     }
 
-    @Transactional
-    public void updateMaxPatients(Long id, int maxPatients) {
-        DoctorAvailability availability = availabilityRepo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Schedule not found"));
-        availability.setMaxPatients(maxPatients);
-    }
+//    @Transactional
+//    public void updateMaxPatients(Long id, int maxPatients) {
+//        DoctorAvailability availability = availabilityRepo.findById(id)
+//                .orElseThrow(() -> new RuntimeException("Schedule not found"));
+//        availability.setMaxPatients(maxPatients);
+//    }
 
     @Transactional
     public void deleteAvailability(Long id) {
@@ -99,9 +97,7 @@ public class DoctorAvailabilityService {
                         a.getId(),
                         a.getDay().toString(),
                         a.getStartTime(),
-                        a.getEndTime(),
-                        a.getMaxPatients(),
-                        a.getBookedPatients()
+                        a.getEndTime()
                 ))
                 .toList();
     }
