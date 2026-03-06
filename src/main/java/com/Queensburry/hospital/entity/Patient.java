@@ -20,8 +20,8 @@ public class Patient {
 
     private String phoneNumber;
 
-    @OneToOne(mappedBy = "patient", cascade = CascadeType.ALL)
-    private Guardian guardian;
+//    @OneToOne(mappedBy = "patient", cascade = CascadeType.ALL)
+//    private Guardian guardian;
 
     @OneToOne
     @JoinColumn(name = "user_id")
@@ -48,17 +48,17 @@ public class Patient {
     }
 
 
-    public Patient(String patientId, int age, String gender, String address, String phoneNumber, Guardian guardian, User user, List<LabAppointment> labAppointments, List<Payment> payments) {
-        this.patientId = patientId;
-        this.age = age;
-        this.gender = gender;
-        this.address = address;
-        this.phoneNumber = phoneNumber;
-        this.guardian = guardian;
-        this.user = user;
-        this.labAppointments = labAppointments;
-        this.payments = payments;
-    }
+//    public Patient(String patientId, int age, String gender, String address, String phoneNumber, Guardian guardian, User user, List<LabAppointment> labAppointments, List<Payment> payments) {
+//        this.patientId = patientId;
+//        this.age = age;
+//        this.gender = gender;
+//        this.address = address;
+//        this.phoneNumber = phoneNumber;
+//        this.guardian = guardian;
+//        this.user = user;
+//        this.labAppointments = labAppointments;
+//        this.payments = payments;
+//    }
 
     public Patient(String id, int age, String gender, String address, String phoneNumber, User saveduser) {
         this.patientId = id;
@@ -110,13 +110,13 @@ public class Patient {
         this.phoneNumber = phoneNumber;
     }
 
-    public Guardian getGuardian() {
-        return guardian;
-    }
-
-    public void setGuardian(Guardian guardian) {
-        this.guardian = guardian;
-    }
+//    public Guardian getGuardian() {
+//        return guardian;
+//    }
+//
+//    public void setGuardian(Guardian guardian) {
+//        this.guardian = guardian;
+//    }
 
     public User getUser() {
         return user;
