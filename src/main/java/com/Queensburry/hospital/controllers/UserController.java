@@ -4,20 +4,28 @@ import com.Queensburry.hospital.dtos.request.LoginRequestDto;
 import com.Queensburry.hospital.dtos.request.UserRegistrationDto;
 import com.Queensburry.hospital.dtos.response.LoginResponseDto;
 import com.Queensburry.hospital.dtos.response.UserResponseDto;
+import com.Queensburry.hospital.entity.User;
+import com.Queensburry.hospital.repo.UserRepo;
 import com.Queensburry.hospital.services.UserService;
 import com.Queensburry.hospital.utils.StandardResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/user")
 public class UserController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserRepo userRepo;
 
 
     @PostMapping("/authentication")
@@ -35,6 +43,23 @@ public class UserController {
             return null;
         }
     }
+
+
+    @GetMapping("/my-role")
+    public ResponseEntity<?> getMyRole(Authentication authentication) {
+
+        String email = authentication.getName();
+        User user = userRepo.findByEmail(email);
+
+        Map<String,String> response = new HashMap<>();
+        response.put("role", user.getRole());
+        System.out.println(user.getRole());
+
+        return ResponseEntity.ok(response);
+    }
+
+
+
 
 
 
